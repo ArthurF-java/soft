@@ -1,0 +1,8 @@
+spring.jpa:
+  database: POSTGRESQL
+
+spring.datasource:
+  driverClassName: org.postgresql.Driver
+  url: jdbc:postgresql://localhost:5432/projectSoft_bd
+  username: root
+  password: postroot
