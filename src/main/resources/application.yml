@@ -6,3 +6,8 @@ spring.datasource:
   url: jdbc:postgresql://localhost:5432/projectSoft_bd
   username: root
   password: postroot
+
+server:
+  port: 8888
+  servlet:
+    context-path: /soft
