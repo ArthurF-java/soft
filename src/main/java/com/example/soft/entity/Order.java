@@ -12,10 +12,10 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private long id;
-    @Column(name = "installation")
-    private boolean installation;
-    @Column (name = "good")
-    private String good;
+    @Column(name = "is_need_installation")
+    private boolean isNeedInstallation;
+    @Column (name = "product_type")
+    private String productType;
     @Column (name = "amount")
     private int amount;
     @Column (name = "order_time")
@@ -26,16 +26,11 @@ public class Order {
     @ManyToOne(cascade = {CascadeType.DETACH,CascadeType.MERGE
             ,CascadeType.PERSIST,CascadeType.REFRESH,CascadeType.REMOVE})
     @JoinColumn(name = "customer_id", nullable = false)
-    private Customer customer;
-
-    @ManyToOne(cascade = {CascadeType.DETACH,CascadeType.MERGE
-            ,CascadeType.PERSIST,CascadeType.REFRESH,CascadeType.REMOVE})
-    @JoinColumn(name = "employee_id", nullable = false)
-    private Employee employee;
+    private User user;
 
     @OneToMany(mappedBy = "order"
     ,cascade = {CascadeType.DETACH,CascadeType.MERGE
             ,CascadeType.PERSIST,CascadeType.REFRESH,CascadeType.REMOVE})
-    private List <OrderGoodDescription> descriptionList;
+    private List <ProductDescription> descriptionList;
 
 }

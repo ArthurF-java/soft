@@ -5,8 +5,8 @@ import javax.persistence.*;
 
 @Data
 @Entity
-@Table(name = "orders_goods_description")
-public class OrderGoodDescription {
+@Table(name = "product_description")
+public class ProductDescription {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -22,6 +22,6 @@ public class OrderGoodDescription {
 
     @ManyToOne(cascade = {CascadeType.DETACH,CascadeType.MERGE
             ,CascadeType.PERSIST,CascadeType.REFRESH,CascadeType.REMOVE})
-    @JoinColumn(name = "orders_id", nullable = false)
+    @JoinColumn(name = "order_id", nullable = false)
     private Order order;
 }
