@@ -1,0 +1,184 @@
+#databaseChangeLog:
+#  -  preConditions:
+#  -  runningAs:
+#       username:  liquibase
+#
+#  -  changeSet:
+#       id:  1
+#       author:  Arthur
+#       changes:
+#         -  createTable:
+#              tableName:  Employee
+#              columns:
+#                -  column:
+#                     name:  id
+#                     type:  int
+#                     autoIncrement:  true
+#                     constraints:
+#                       primaryKey:  true
+#                       nullable:  false
+#                -  column:
+#                     name:  name
+#                     type:  varchar(50)
+#                     constraints:
+#                       nullable: false
+#                -  column:
+#                     name:  surname
+#                     type:  varchar(50)
+#                -  column:
+#                     name:  phone
+#                     type:  varchar(50)
+#                - column:
+#                     name:  role
+#                     type:  varchar(50)
+#                - column:
+#                     name:  authority
+#                     type:   int
+#
+#
+#         - createTable:
+#             tableName: Customers
+#             columns:
+#               - column:
+#                   name: id
+#                   type: int
+#                   autoIncrement: true
+#                   constraints:
+#                     primaryKey: true
+#                     nullable: false
+#               - column:
+#                   name: name
+#                   type: varchar(50)
+#                   constraints:
+#                     nullable: false
+#               - column:
+#                   name: surname
+#                   type: varchar(50)
+#               - column:
+#                   name: city
+#                   type: varchar(50)
+#               - column:
+#                   name: street
+#                   type: varchar(50)
+#               - column:
+#                   name: house
+#                   type: int
+#               - column:
+#                   name: flat
+#                   type: int
+#
+#
+#         - createTable:
+#             tableName: Orders
+#             columns:
+#               - column:
+#                   name: id
+#                   type: int
+#                   autoIncrement: true
+#                   constraints:
+#                     primaryKey: true
+#                     nullable: false
+#               - column:
+#                   name: employees_id
+#                   type: int
+#               - column:
+#                   name: customers_id
+#                   type: int
+#               - column:
+#                   name: instalation
+#                   type: boolean
+#               - column:
+#                   name: goods
+#                   type: varchar(50)
+#
+#
+#         - createTable:
+#             tableName: Orders_goods_discriptions
+#             columns:
+#               - column:
+#                   name: id
+#                   type: int
+#                   autoIncrement: true
+#                   constraints:
+#                     primaryKey: true
+#                     nullable: false
+#               - column:
+#                   name: orders_id
+#                   type: int
+#               - column:
+#                   name: width
+#                   type: int
+#               - column:
+#                   name: height
+#                   type: boolean
+#               - column:
+#                   name: color
+#                   type: varchar(50)
+#               - column:
+#                   name: comments
+#                   type: varchar(255)
+
+
+
+
+
+
+
+
+#  - changeSet:
+#      id: 2
+#      author: Arthur
+#      changes:
+#        - createTable:
+#            tableName: Customers
+#            columns:
+#              - column:
+#                  name: id
+#                  type: int
+#                  autoIncrement: true
+#                  constraints:
+#                    primaryKey: true
+#                    nullable: false
+#              - column:
+#                  name: name
+#                  type: varchar(50)
+#                  constraints:
+#                    nullable: false
+#              - column:
+#                  name: surname
+#                  type: varchar(50)
+#              - column:
+#                  name: city
+#                  type: varchar(50)
+#              - column:
+#                  name: street
+#                  type: varchar(50)
+#              - column:
+#                  name: house
+#                  type: int
+#              - column:
+#                  name: flat
+#                  type: int
+
+
+                  #  -  changeSet:
+                  #       id:  2
+                  #       author:  Arthur
+                  #       changes:
+                  #         -  addColumn:
+                  #              tableName:  Employee
+                  #              columns:
+                  #                -  column:
+                  #                     name:  username
+                  #                     type:  varchar(8)
+
+#  -  changeSet:
+#       id:  3
+#       author:  Arthur
+#       changes:
+#         -  addLookupTable:
+#              existingTableName:  person
+#              existingColumnName:  state
+#              newTableName:  state
+#              newColumnName:  id
+#              newColumnDataType:  char(2)

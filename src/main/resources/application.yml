@@ -11,3 +11,7 @@ server:
   port: 8888
   servlet:
     context-path: /soft
+spring:
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.xml
+
