@@ -1,5 +1,7 @@
-create table employees (
+create table employee (
                        id serial primary key ,
+                       email varchar (100) not null unique,
+                       password varchar (20) not null,
                        name varchar(50) not null,
                        surname varchar(50),
                        phone varchar(50),

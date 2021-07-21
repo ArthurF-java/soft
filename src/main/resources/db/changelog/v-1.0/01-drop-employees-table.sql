@@ -1,4 +1,4 @@
-alter table employees
+alter table employee
 
-drop table employees
+drop table employee
     GO

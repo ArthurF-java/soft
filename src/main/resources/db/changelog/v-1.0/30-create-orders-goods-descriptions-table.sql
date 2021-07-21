@@ -1,4 +1,4 @@
-create table orders_goods_descriptions (
+create table orders_goods_description (
                         id serial primary key ,
                         orders_id int,
                         width int not null ,

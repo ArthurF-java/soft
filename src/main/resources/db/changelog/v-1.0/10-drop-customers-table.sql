@@ -1,4 +1,4 @@
-alter table customers
+alter table customer
 
-drop table customers
+drop table customer
     GO
