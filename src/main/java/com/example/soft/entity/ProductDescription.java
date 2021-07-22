@@ -1,11 +1,14 @@
 package com.example.soft.entity;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 
 
 @Data
 @Entity
 @Table(name = "product_description")
+@NoArgsConstructor
 public class ProductDescription {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

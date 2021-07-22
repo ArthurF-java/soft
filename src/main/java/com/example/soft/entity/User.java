@@ -1,6 +1,7 @@
 package com.example.soft.entity;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.List;
@@ -8,6 +9,7 @@ import java.util.List;
 @Data
 @Entity
 @Table(name = "user")
+@NoArgsConstructor
 public class User {
     @Id
     @Column(name = "id")
