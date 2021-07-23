@@ -15,7 +15,7 @@
             <column name="phone" type="varchar(100)" remarks="Unique phone number using for authorisation">
                 <constraints unique="true" uniqueConstraintName="uq_user_phone_"/>
             </column>
-            <column name="password" type="varchar(50)" remarks="Password hash"/>
+            <column name="password" type="varchar(200)" remarks="Password hash"/>
             <column name="email" type="varchar(255)" remarks="User e-mail"/>
             <column name="role" type="varchar(50)" remarks="Role of user"/>
             <column name="city" type="varchar(50)" remarks="City of user"/>

@@ -8,7 +8,7 @@ import java.util.List;
 
 @Data
 @Entity
-@Table(name = "orders")
+@Table(name = "orders", schema = "public")
 @NoArgsConstructor
 public class Order {
     @Id

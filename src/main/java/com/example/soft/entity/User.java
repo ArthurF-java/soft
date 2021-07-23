@@ -1,5 +1,6 @@
 package com.example.soft.entity;
 
+import com.example.soft.entity.enumeracion.Role;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -8,7 +9,7 @@ import java.util.List;
 
 @Data
 @Entity
-@Table(name = "user")
+@Table(name = "user", schema = "public")
 @NoArgsConstructor
 public class User {
     @Id
@@ -25,6 +26,9 @@ public class User {
     private String password;
     @Transient
     private String passwordConfirm;
+    @Column(name = "role")
+    @Enumerated(EnumType.STRING)
+    private Role role;
     @Column(name = "email")
     private String email;
     @Column(name = "city")
