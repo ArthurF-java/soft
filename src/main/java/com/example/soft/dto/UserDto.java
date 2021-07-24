@@ -2,7 +2,9 @@ package com.example.soft.dto;
 
 import com.example.soft.entity.enumeracion.Role;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIgnoreType;
 import lombok.Data;
+import lombok.Value;
 
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)

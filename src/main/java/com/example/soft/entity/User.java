@@ -24,8 +24,6 @@ public class User {
     private String phone;
     @Column(name = "password")
     private String password;
-    @Transient
-    private String passwordConfirm;
     @Column(name = "role")
     @Enumerated(EnumType.STRING)
     private Role role;

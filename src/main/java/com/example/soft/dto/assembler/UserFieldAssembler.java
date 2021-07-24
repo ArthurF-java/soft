@@ -28,7 +28,7 @@ public class UserFieldAssembler {
     }
     public User assemblerFromUserDtoToUser(UserDto userDto){
         User user = new User();
-        user.setId(user.getId());
+        user.setId(userDto.getId());
         user.setFirstName(userDto.getFirstName());
         user.setLastName(userDto.getLastName());
         user.setPhone(userDto.getPhone());
