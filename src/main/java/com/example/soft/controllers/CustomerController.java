@@ -1,6 +1,7 @@
 package com.example.soft.controllers;
 
 import com.example.soft.dto.CustomerDto;
+import com.example.soft.entity.User;
 import com.example.soft.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -12,11 +13,6 @@ import java.util.List;
 public class CustomerController {
 
     UserService userService;
-
-    @GetMapping()
-    public List<CustomerDto> getAllCustomers() {
-        return userService.findAllByRoleCustomer();
-    }
 
     @GetMapping("/{customer_id}")
     public CustomerDto findCustomerById(@PathVariable String customer_id) {

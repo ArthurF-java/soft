@@ -38,11 +38,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findById(long userId) {
+    public UserDto findById(long userId) {
         if(!userRepository.existsById(userId)){
             throw new UserNotFoundException(USER_NOT_FOUND_MESSAGE+userId);
         }
-        return userRepository.findById(userId).orElse(null);
+        return userFieldAssembler.assemblerFromUserToUserDto(userRepository.getById(userId));
     }
 
     @Override
@@ -67,8 +67,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findByPhone(String username) {
-        return userRepository.findByPhone(username);
+    public User findByPhone(String phone) {
+        return userRepository.findByPhone(phone);
 
     }
 

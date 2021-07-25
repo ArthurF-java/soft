@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface UserService {
     List<User> findAllUsers();
-    User findById(long userId);
+    UserDto findById(long userId);
     List<CustomerDto> findAllByRoleCustomer();
     List<User> findAllUsersByRole(Role role);
     CustomerDto findCustomerById(long userId);

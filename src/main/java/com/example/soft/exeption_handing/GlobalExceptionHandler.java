@@ -1,7 +1,7 @@
 package com.example.soft.exeption_handing;
 
+import com.example.soft.exeption_handing.orders.OrderNotFoundException;
 import com.example.soft.exeption_handing.users.PhoneNoUniqueException;
-import com.example.soft.exeption_handing.users.UserIncorrectData;
 import com.example.soft.exeption_handing.users.UserNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -13,22 +13,28 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @AllArgsConstructor
 public class GlobalExceptionHandler {
 
-    UserIncorrectData userIncorrectData;
+    EntityIncorrectData userIncorrectData;
 
     @ExceptionHandler
-    public ResponseEntity<UserIncorrectData> userHandleException(UserNotFoundException exception){
+    public ResponseEntity<EntityIncorrectData> userHandleException(UserNotFoundException exception){
         userIncorrectData.setInfo(exception.getMessage());
         return new ResponseEntity<>(userIncorrectData, HttpStatus.NOT_FOUND);
     }
     @ExceptionHandler
-    public ResponseEntity<UserIncorrectData> userHandleException(PhoneNoUniqueException exception){
+    public ResponseEntity<EntityIncorrectData> userHandleException(PhoneNoUniqueException exception){
         userIncorrectData.setInfo(exception.getMessage());
         return new ResponseEntity<>(userIncorrectData, HttpStatus.CONFLICT);
     }
     @ExceptionHandler
-    public ResponseEntity<UserIncorrectData> userHandleException(Exception exception){
+    public ResponseEntity<EntityIncorrectData> userHandleException(Exception exception){
         userIncorrectData.setInfo(exception.getMessage());
         return new ResponseEntity<>(userIncorrectData, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<EntityIncorrectData> OrderHandleException(OrderNotFoundException exception){
+        userIncorrectData.setInfo(exception.getMessage());
+        return new ResponseEntity<>(userIncorrectData, HttpStatus.NOT_FOUND);
     }
 
 

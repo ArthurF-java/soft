@@ -1,8 +1,12 @@
 package com.example.soft.entity;
 
 import com.example.soft.entity.enumeracion.Role;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.util.List;
@@ -38,8 +42,11 @@ public class User {
     @Column(name = "flat")
     private int flat;
 
-    @OneToMany(mappedBy = "user"
-            ,cascade = {CascadeType.DETACH,CascadeType.MERGE
+    @JsonManagedReference
+    @JsonBackReference
+    @OneToMany(
+            mappedBy = "user",
+            cascade = {CascadeType.DETACH,CascadeType.MERGE
             ,CascadeType.PERSIST,CascadeType.REFRESH,CascadeType.REMOVE})
     private List <Order> orderList;
 

@@ -5,11 +5,17 @@ import com.example.soft.dto.CustomerDto;
 import com.example.soft.dto.UserDto;
 import com.example.soft.entity.User;
 import com.example.soft.entity.enumeracion.Role;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
+
+import java.util.stream.Collectors;
 
 
 @Component
+@AllArgsConstructor
 public class UserFieldAssembler {
+
+    OrderFieldAssembler orderFieldAssembler;
 
     public UserDto assemblerFromUserToUserDto(User user){
         UserDto userDto = new UserDto();
@@ -55,6 +61,7 @@ public class UserFieldAssembler {
         customerDto.setStreet(user.getStreet());
         customerDto.setHouse(user.getHouse());
         customerDto.setFlat(user.getFlat());
+        customerDto.setOrderList(user.getOrderList().stream().map(s->orderFieldAssembler.assemblerFromOrderToOrderDto(s)).collect(Collectors.toList()));
         return customerDto;
     }
 
@@ -71,6 +78,7 @@ public class UserFieldAssembler {
         user.setStreet(customerDto.getStreet());
         user.setHouse(customerDto.getHouse());
         user.setFlat(customerDto.getFlat());
+        user.setOrderList(customerDto.getOrderList().stream().map(s->orderFieldAssembler.assemblerFromOrderDtoToOrder(s)).collect(Collectors.toList()));
         return  user;
 
     }
