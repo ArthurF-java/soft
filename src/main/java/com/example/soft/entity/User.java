@@ -1,8 +1,14 @@
 package com.example.soft.entity;
 
 import com.example.soft.entity.enumeracion.Role;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.util.List;
@@ -10,6 +16,7 @@ import java.util.List;
 @Data
 @Entity
 @Table(name = "user", schema = "public")
+@JsonIgnoreProperties(ignoreUnknown = true)
 @NoArgsConstructor
 public class User {
     @Id
@@ -24,8 +31,6 @@ public class User {
     private String phone;
     @Column(name = "password")
     private String password;
-    @Transient
-    private String passwordConfirm;
     @Column(name = "role")
     @Enumerated(EnumType.STRING)
     private Role role;
@@ -40,11 +45,10 @@ public class User {
     @Column(name = "flat")
     private int flat;
 
-    @OneToMany(mappedBy = "user"
-            ,cascade = {CascadeType.DETACH,CascadeType.MERGE
-            ,CascadeType.PERSIST,CascadeType.REFRESH,CascadeType.REMOVE})
+    @JsonManagedReference
+    @OneToMany(mappedBy = "user",
+            cascade = {CascadeType.ALL})
     private List <Order> orderList;
-
 
 }
 

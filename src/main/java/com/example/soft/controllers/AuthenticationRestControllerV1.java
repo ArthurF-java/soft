@@ -46,7 +46,7 @@ public class AuthenticationRestControllerV1 {
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody AuthenticationRequestDto requestDto) {
         try {
-            String username = requestDto.getUsername();
+            String username = requestDto.getPhone();
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, requestDto.getPassword()));
             User user = userService.findByPhone(username);
             if (user == null) {
