@@ -3,10 +3,9 @@ package com.example.soft.service.impl;
 import com.example.soft.dto.CustomerDto;
 import com.example.soft.dto.UserDto;
 import com.example.soft.dto.assembler.UserFieldAssembler;
-import com.example.soft.entity.User;
+import com.example.soft.entity.UserEntity;
 import com.example.soft.entity.enumeracion.Role;
 import com.example.soft.exeption_handing.users.PhoneNoUniqueException;
-import com.example.soft.exeption_handing.users.UserAlreadyExist;
 import com.example.soft.exeption_handing.users.UserNotFoundException;
 import com.example.soft.repository.UserRepository;
 import com.example.soft.service.UserService;
@@ -49,19 +48,19 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<CustomerDto> findAllByRoleCustomer() {
-        List<User> userList = userRepository.findAllByRole(Role.ROLE_CUSTOMER);
+        List<UserEntity> userList = userRepository.findAllByRole(Role.ROLE_CUSTOMER);
         return userList.stream().map(s -> userFieldAssembler.assemblerFromUserToCustomerDto(s))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public List<User> findAllUsersByRole(Role role) {
+    public List<UserEntity> findAllUsersByRole(Role role) {
         return userRepository.findAllByRole(role);
     }
 
     @Override
     public CustomerDto findCustomerById(long userId) {
-        User user = userRepository.findByRoleAndId(Role.ROLE_CUSTOMER, userId);
+        UserEntity user = userRepository.findByRoleAndId(Role.ROLE_CUSTOMER, userId);
         if (user == null) {
             throw new UserNotFoundException(CUSTOMER_NOT_FOUND_MESSAGE + userId);
         }
@@ -69,7 +68,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findByPhone(String phone) {
+    public UserEntity findByPhone(String phone) {
         return userRepository.findByPhone(phone);
 
     }
@@ -83,7 +82,7 @@ public class UserServiceImpl implements UserService {
             throw new PhoneNoUniqueException(USER_PHONE_NUMBER_NOT_UNIQUE_MESSAGE);
         }
 
-        User user = userFieldAssembler.assemblerFromUserDtoToUser(userDto);
+        UserEntity user = userFieldAssembler.assemblerFromUserDtoToUser(userDto);
         if (user.getPassword() != null) {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
         }
@@ -95,11 +94,11 @@ public class UserServiceImpl implements UserService {
         if(customerDto.getPhone()==null){
             throw  new PhoneNoUniqueException(USER_PHONE_NOT_NULL);
         }
-        User user = userFieldAssembler.assemblerFromCustomerDtoToUser(customerDto);
+        UserEntity user = userFieldAssembler.assemblerFromCustomerDtoToUser(customerDto);
         if (userRepository.existsUserByPhone(customerDto.getPhone())) {
             throw new PhoneNoUniqueException(customerDto.getPhone() + USER_PHONE_NUMBER_NOT_UNIQUE_MESSAGE);
         }
-        User resultUser = userRepository.save(user);
+        UserEntity resultUser = userRepository.save(user);
         return userFieldAssembler.assemblerFromUserToCustomerDto(resultUser);
     }
 
@@ -116,7 +115,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public CustomerDto editCustomer(CustomerDto customerDto) {
-        User userCheck = userRepository.findById(customerDto.getId()).orElse(null);
+        UserEntity userCheck = userRepository.findById(customerDto.getId()).orElse(null);
         if (userCheck == null) {
             throw new UserNotFoundException(USER_NOT_FOUND_MESSAGE + customerDto.getId());
         } else {
@@ -132,7 +131,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto editUser(UserDto userDto) {
-        User userCheck = userRepository.findById(userDto.getId()).orElse(null);
+        UserEntity userCheck = userRepository.findById(userDto.getId()).orElse(null);
         if (userCheck == null) {
             throw new UserNotFoundException(USER_NOT_FOUND_MESSAGE + userDto.getId());
         } else {

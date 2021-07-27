@@ -1,14 +1,9 @@
 package com.example.soft.entity;
 
 import com.example.soft.entity.enumeracion.Role;
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.util.List;
@@ -16,13 +11,12 @@ import java.util.List;
 @Data
 @Entity
 @Table(name = "user", schema = "public")
-@JsonIgnoreProperties(ignoreUnknown = true)
 @NoArgsConstructor
-public class User {
+public class UserEntity {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     @Column(name = "first_name")
     private String firstName;
     @Column(name = "last_name")
@@ -46,9 +40,9 @@ public class User {
     private int flat;
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "user",
+    @OneToMany(mappedBy = "customer",
             cascade = {CascadeType.ALL})
-    private List <Order> orderList;
+    private List <OrderEntity> orders;
 
 }
 

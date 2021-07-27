@@ -1,6 +1,6 @@
 package com.example.soft.security.jwt;
 
-import com.example.soft.entity.User;
+import com.example.soft.entity.UserEntity;
 import com.example.soft.entity.enumeracion.Role;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -14,7 +14,7 @@ public final class JwtUserFactory {
     public JwtUserFactory() {
     }
 
-    public static JwtUser create(User user) {
+    public static JwtUser create(UserEntity user) {
         return new JwtUser(
                 user.getId(),
                 user.getPhone(),

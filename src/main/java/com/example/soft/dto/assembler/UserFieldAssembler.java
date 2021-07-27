@@ -2,7 +2,7 @@ package com.example.soft.dto.assembler;
 
 import com.example.soft.dto.CustomerDto;
 import com.example.soft.dto.UserDto;
-import com.example.soft.entity.User;
+import com.example.soft.entity.UserEntity;
 import com.example.soft.entity.enumeracion.Role;
 import com.example.soft.repository.UserRepository;
 import lombok.AllArgsConstructor;
@@ -17,7 +17,7 @@ public class UserFieldAssembler {
     UserRepository userRepository;
     OrderFieldAssembler orderFieldAssembler;
 
-    public UserDto assemblerFromUserToUserDto(User user) {
+    public UserDto assemblerFromUserToUserDto(UserEntity user) {
 
         UserDto userDto = null;
         if (user != null) {
@@ -37,11 +37,11 @@ public class UserFieldAssembler {
         return userDto;
     }
 
-    public User assemblerFromUserDtoToUser(UserDto userDto) {
+    public UserEntity assemblerFromUserDtoToUser(UserDto userDto) {
 
-        User user = null;
+        UserEntity user = null;
         if (userDto != null) {
-            user = new User();
+            user = new UserEntity();
             user.setId(userDto.getId());
             user.setFirstName(userDto.getFirstName());
             user.setLastName(userDto.getLastName());
@@ -55,14 +55,13 @@ public class UserFieldAssembler {
             user.setFlat(userDto.getFlat());
         }
         return user;
-
     }
 
-    public CustomerDto assemblerFromUserToCustomerDto(User user) {
+    public CustomerDto assemblerFromUserToCustomerDto(UserEntity user) {
 
         CustomerDto customerDto = null;
         if (user != null) {
-            customerDto=new CustomerDto();
+            customerDto = new CustomerDto();
             customerDto.setId(user.getId());
             customerDto.setId(user.getId());
             customerDto.setFirstName(user.getFirstName());
@@ -73,8 +72,8 @@ public class UserFieldAssembler {
             customerDto.setStreet(user.getStreet());
             customerDto.setHouse(user.getHouse());
             customerDto.setFlat(user.getFlat());
-            customerDto.setOrderList(user.getOrderList() == null ? null :
-                    user.getOrderList()
+            customerDto.setOrderList(user.getOrders() == null ? null :
+                    user.getOrders()
                             .stream()
                             .map(s -> orderFieldAssembler.assemblerFromOrderToOrderDto(s))
                             .collect(Collectors.toList()));
@@ -82,10 +81,10 @@ public class UserFieldAssembler {
         return customerDto;
     }
 
-    public User assemblerFromCustomerDtoToUser(CustomerDto customerDto) {
-        User user = null;
+    public UserEntity assemblerFromCustomerDtoToUser(CustomerDto customerDto) {
+        UserEntity user = null;
         if (customerDto != null) {
-            user=new User();
+            user = new UserEntity();
             user.setId(customerDto.getId());
             user.setFirstName(customerDto.getFirstName());
             user.setLastName(customerDto.getLastName());
@@ -97,11 +96,10 @@ public class UserFieldAssembler {
             user.setStreet(customerDto.getStreet());
             user.setHouse(customerDto.getHouse());
             user.setFlat(customerDto.getFlat());
-            user.setOrderList(userRepository.existsById(customerDto.getId()) ?
-                    userRepository.getById(customerDto.getId()).getOrderList() : null);
+            user.setOrders(userRepository.existsById(customerDto.getId()) ?
+                    userRepository.getById(customerDto.getId()).getOrders() : null);
 
         }
         return user;
-
     }
 }

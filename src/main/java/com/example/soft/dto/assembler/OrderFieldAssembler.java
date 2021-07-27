@@ -1,7 +1,7 @@
 package com.example.soft.dto.assembler;
 
 import com.example.soft.dto.OrderDto;
-import com.example.soft.entity.Order;
+import com.example.soft.entity.OrderEntity;
 import com.example.soft.exeption_handing.users.UserNotFoundException;
 import com.example.soft.repository.OrderRepository;
 import com.example.soft.repository.UserRepository;
@@ -18,46 +18,53 @@ public class OrderFieldAssembler {
     OrderRepository orderRepository;
     UserRepository userRepository;
 
-    public Order assemblerFromOrderDtoToOrder(OrderDto orderDto) {
-        Order order = null;
+    public OrderEntity assemblerFromOrderDtoToOrder(OrderDto orderDto) {
+        OrderEntity orderEntity = null;
         if (orderDto != null) {
-            order = new Order();
-            order.setId(orderDto.getId());
-            order.setEmployeeId(orderDto.getEmployeeId());
-            order.setNeedInstallation(orderDto.isNeedInstallation());
-            order.setProductType(orderDto.getProductType());
-            order.setAmount(orderDto.getAmount());
-            order.setOrderTime(orderDto.getOrderTime());
-            order.setExecutionTime(orderDto.getExecutionTime());
-            order.setInstallTime(orderDto.getInstallTime());
+            orderEntity = new OrderEntity();
+            orderEntity.setId(orderDto.getId());
+            orderEntity.setNeedInstallation(orderDto.isNeedInstallation());
+            orderEntity.setProductType(orderDto.getProductType());
+            orderEntity.setAmount(orderDto.getAmount());
+            orderEntity.setOrderTime(orderDto.getOrderTime());
+            orderEntity.setExecutionTime(orderDto.getExecutionTime());
+            orderEntity.setInstallTime(orderDto.getInstallTime());
 
-            order.setDescriptionList(orderRepository.existsById(order.getId())?
-                    orderRepository.getById(orderDto.getId()).getDescriptionList():null);
+            orderEntity.setEmployee(userRepository.findById(orderDto.getEmployeeId()).orElse(null));
+            if (orderEntity.getEmployee()==null){
+                throw  new UserNotFoundException(
+                        "Not found in Database employee with Id= " + orderDto.getCustomerId());
+            }
 
-            order.setUser(userRepository.findById(orderDto.getCustomerId()).orElse(null));
-            if (order.getUser() == null) {
+            orderEntity.setCustomer(userRepository.findById(orderDto.getCustomerId()).orElse(null));
+            if (orderEntity.getCustomer() == null) {
                 throw new UserNotFoundException(
                         "Not found in Database customer with Id= " + orderDto.getCustomerId());
             }
+            orderEntity.setDescriptionList(orderEntity.getId()==null? null :
+                    orderRepository.existsById(orderEntity.getId())?
+                    orderRepository.getById(orderDto.getId()).getDescriptionList():null);
+
+
         }
-        return order;
+        return orderEntity;
     }
 
-    public OrderDto assemblerFromOrderToOrderDto(Order order) {
+    public OrderDto assemblerFromOrderToOrderDto(OrderEntity orderEntity) {
         OrderDto orderDto = null;
-        if (order != null) {
+        if (orderEntity != null) {
             orderDto = new OrderDto();
-            orderDto.setId(order.getId());
-            orderDto.setEmployeeId(order.getEmployeeId());
-            orderDto.setCustomerId(order.getUser().getId());
-            orderDto.setProductType(order.getProductType());
-            orderDto.setNeedInstallation(order.isNeedInstallation());
-            orderDto.setAmount(order.getAmount());
-            orderDto.setOrderTime(order.getOrderTime());
-            orderDto.setExecutionTime(order.getExecutionTime());
-            orderDto.setInstallTime(order.getInstallTime());
-            orderDto.setDescriptionList(order.getDescriptionList()==null? null:
-                    order.getDescriptionList()
+            orderDto.setId(orderEntity.getId());
+            orderDto.setEmployeeId(orderEntity.getEmployee().getId());
+            orderDto.setCustomerId(orderEntity.getCustomer().getId());
+            orderDto.setProductType(orderEntity.getProductType());
+            orderDto.setNeedInstallation(orderEntity.isNeedInstallation());
+            orderDto.setAmount(orderEntity.getAmount());
+            orderDto.setOrderTime(orderEntity.getOrderTime());
+            orderDto.setExecutionTime(orderEntity.getExecutionTime());
+            orderDto.setInstallTime(orderEntity.getInstallTime());
+            orderDto.setDescriptionList(orderEntity.getDescriptionList()==null? null:
+                    orderEntity.getDescriptionList()
             .stream().map(s->productDescriptionAssembler.assemblerFromEntityToDto(s))
             .collect(Collectors.toList()));
         }

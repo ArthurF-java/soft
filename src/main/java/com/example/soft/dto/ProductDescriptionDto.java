@@ -6,8 +6,8 @@ import lombok.Data;
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ProductDescriptionDto {
-    private long id;
-    private long orderId;
+    private Long id;
+    private Long orderId;
     private int width;
     private int height;
     private String color;

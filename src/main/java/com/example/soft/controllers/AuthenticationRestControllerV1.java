@@ -1,7 +1,7 @@
 package com.example.soft.controllers;
 
 import com.example.soft.dto.AuthenticationRequestDto;
-import com.example.soft.entity.User;
+import com.example.soft.entity.UserEntity;
 import com.example.soft.security.jwt.JwtTokenProvider;
 import com.example.soft.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +48,7 @@ public class AuthenticationRestControllerV1 {
         try {
             String username = requestDto.getPhone();
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, requestDto.getPassword()));
-            User user = userService.findByPhone(username);
+            UserEntity user = userService.findByPhone(username);
             if (user == null) {
                 throw new UsernameNotFoundException("User with username: " + username + " not found");
             }

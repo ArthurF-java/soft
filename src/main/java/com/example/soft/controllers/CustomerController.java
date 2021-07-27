@@ -1,7 +1,6 @@
 package com.example.soft.controllers;
 
 import com.example.soft.dto.CustomerDto;
-import com.example.soft.entity.User;
 import com.example.soft.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;

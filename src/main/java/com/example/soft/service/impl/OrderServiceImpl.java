@@ -2,8 +2,8 @@ package com.example.soft.service.impl;
 
 import com.example.soft.dto.OrderDto;
 import com.example.soft.dto.assembler.OrderFieldAssembler;
-import com.example.soft.entity.Order;
-import com.example.soft.entity.User;
+import com.example.soft.entity.OrderEntity;
+import com.example.soft.entity.UserEntity;
 import com.example.soft.exeption_handing.orders.OrderNotFoundException;
 import com.example.soft.exeption_handing.users.UserNotFoundException;
 import com.example.soft.repository.OrderRepository;
@@ -31,7 +31,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderDto findOrderByID(long orderId) {
-        Order order = orderRepository.findById(orderId).orElse(null);
+        OrderEntity order = orderRepository.findById(orderId).orElse(null);
         if (order == null) {
             throw new OrderNotFoundException(ORDER_NOT_FOUND_MESSAGE + orderId);
         }
@@ -46,11 +46,11 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<OrderDto> findAllOrdersByCustomerId(long customerId) {
-        User user = userRepository.findById(customerId).orElse(null);
+        UserEntity user = userRepository.findById(customerId).orElse(null);
         if (user == null) {
             throw new UserNotFoundException(CUSTOMER_NOT_FOUND_MESSAGE + customerId);
         }
-        return user.getOrderList().stream()
+        return user.getOrders().stream()
                 .map(orderFieldAssembler::assemblerFromOrderToOrderDto)
                 .collect(Collectors.toList());
     }
@@ -61,7 +61,7 @@ public class OrderServiceImpl implements OrderService {
             throw new UserNotFoundException(CUSTOMER_NOT_FOUND_MESSAGE+orderDto.getCustomerId());
         }
         orderDto.setOrderTime(LocalDate.now());
-        Order order = orderFieldAssembler.assemblerFromOrderDtoToOrder(orderDto);
+        OrderEntity order = orderFieldAssembler.assemblerFromOrderDtoToOrder(orderDto);
         orderRepository.save(order);
         return orderFieldAssembler.assemblerFromOrderToOrderDto(order);
     }
@@ -74,9 +74,9 @@ public class OrderServiceImpl implements OrderService {
         if(!userRepository.existsById(orderDto.getCustomerId())){
             throw new UserNotFoundException(CUSTOMER_NOT_FOUND_MESSAGE+orderDto.getCustomerId());
         }
-        Order order = orderFieldAssembler.assemblerFromOrderDtoToOrder(orderDto);
-        orderRepository.save(order);
-        return orderFieldAssembler.assemblerFromOrderToOrderDto(order);
+        OrderEntity orderEntity = orderFieldAssembler.assemblerFromOrderDtoToOrder(orderDto);
+        orderRepository.save(orderEntity);
+        return orderFieldAssembler.assemblerFromOrderToOrderDto(orderEntity);
     }
 
     @Override

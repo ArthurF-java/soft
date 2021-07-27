@@ -1,6 +1,6 @@
 package com.example.soft.security;
 
-import com.example.soft.entity.User;
+import com.example.soft.entity.UserEntity;
 import com.example.soft.security.jwt.JwtUser;
 import com.example.soft.security.jwt.JwtUserFactory;
 import com.example.soft.service.UserService;
@@ -25,7 +25,7 @@ public class JwtUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userService.findByPhone(username);
+        UserEntity user = userService.findByPhone(username);
 
         if (user == null) {
             throw new UsernameNotFoundException("User with username: " + username + " not found");

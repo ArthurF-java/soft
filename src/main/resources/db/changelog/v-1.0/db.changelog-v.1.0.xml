@@ -6,8 +6,8 @@
                       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
 
     <changeSet id="20210721-1" author="Arthur Fonichkin">
-        <createTable tableName="user" remarks="table for user">
-            <column name="id" type="bigint" autoIncrement="true" remarks="Unique identifier for  user">
+        <createTable tableName="user" remarks="Table for user">
+            <column name="id" type="bigint" autoIncrement="true" remarks="Unique identifier for user">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="pk_user_id"/>
             </column>
             <column name="first_name" type="varchar(100)" remarks="First name"/>
@@ -25,31 +25,29 @@
         </createTable>
     </changeSet>
 
-
-
     <changeSet id="20210721-2" author="Arthur Fonichkin">
-    <createTable tableName="orders">
-        <column name="id" type="bigint" autoIncrement="true" remarks="Unique identifier for  order">
-            <constraints nullable="false" primaryKey="true" primaryKeyName="pk_order_id"/>
-        </column>
-        <column name="employee_id" type="bigint" remarks="User(EMPLOYEE ROLE) identifier"/>
-        <column name="customer_id" type="bigint" remarks="User(CUSTOMER ROLE) identifier"/>
-        <column name="is_need_installation" type="boolean" remarks="True if need install"/>
-        <column name="product_type" type="varchar(50)" remarks="Type of order product"/>
-        <column name="amount" type="integer" remarks="Amount of order"/>
-        <column name="order_time" type="date" remarks="Time of order"/>
-        <column name="execution_time" type="date" remarks="Time of execution"/>
-        <column name="install_time" type="date" remarks="Time of install"/>
-    </createTable>
-        <addForeignKeyConstraint baseTableName="orders" baseColumnNames="customer_id" constraintName="fk_user_role_customer_id"
+        <createTable tableName="orders">
+            <column name="id" type="bigint" autoIncrement="true" remarks="Unique identifier for orderEntity">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_order_id"/>
+            </column>
+            <column name="employee_id" type="bigint" remarks="User(EMPLOYEE ROLE) identifier"/>
+            <column name="customer_id" type="bigint" remarks="User(CUSTOMER ROLE) identifier"/>
+            <column name="is_need_installation" type="boolean" remarks="True if need install"/>
+            <column name="product_type" type="varchar(50)" remarks="Type of orderEntity product"/>
+            <column name="amount" type="integer" remarks="Amount of orderEntity"/>
+            <column name="order_time" type="date" remarks="Time of orderEntity"/>
+            <column name="execution_time" type="date" remarks="Time of execution"/>
+            <column name="install_time" type="date" remarks="Time of install"/>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="orders" baseColumnNames="customer_id"
+                                 constraintName="fk_orders_customer_id"
                                  referencedTableName="user" referencedColumnNames="id"/>
+
     </changeSet>
-
-
 
     <changeSet id="20210721-3" author="Arthur Fonichkin">
         <createTable tableName="product_description">
-            <column name="id" type="bigint" autoIncrement="true" remarks="Unique identifier for  product_description">
+            <column name="id" type="bigint" autoIncrement="true" remarks="Unique identifier for product_description">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="pk_product_id"/>
             </column>
             <column name="order_id" type="bigint" remarks="Order identifier"/>
@@ -58,8 +56,21 @@
             <column name="color" type="varchar(50)" remarks="Color of product"/>
             <column name="comments" type="varchar(250)" remarks="Product comments"/>
         </createTable>
-        <addForeignKeyConstraint baseTableName="product_description" baseColumnNames="order_id" constraintName="fk_order_id"
+        <addForeignKeyConstraint baseTableName="product_description" baseColumnNames="order_id"
+                                 constraintName="fk_product_description_order_id"
                                  referencedTableName="orders" referencedColumnNames="id"/>
+
     </changeSet>
+    <changeSet id="20210727-1" author="Arthur Fonichkin">
+        <modifyDataType tableName="product_description" columnName="comments" newDataType="text"/>
+    </changeSet>
+
+    <changeSet id="20210727-2" author="Arthur Fonichkin">
+        <addForeignKeyConstraint baseTableName="orders" baseColumnNames="employee_id"
+        constraintName="fk_orders_employee_id"
+        referencedTableName="user" referencedColumnNames="id" />
+    </changeSet>
+
+
 
 </databaseChangeLog>

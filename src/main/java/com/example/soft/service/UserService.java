@@ -2,7 +2,7 @@ package com.example.soft.service;
 
 import com.example.soft.dto.CustomerDto;
 import com.example.soft.dto.UserDto;
-import com.example.soft.entity.User;
+import com.example.soft.entity.UserEntity;
 import com.example.soft.entity.enumeracion.Role;
 import java.util.List;
 
@@ -12,9 +12,9 @@ public interface UserService {
     List<UserDto> findAllUsers();
     UserDto findById(long userId);
     List<CustomerDto> findAllByRoleCustomer();
-    List<User> findAllUsersByRole(Role role);
+    List<UserEntity> findAllUsersByRole(Role role);
     CustomerDto findCustomerById(long userId);
-    User findByPhone(String username);
+    UserEntity findByPhone(String username);
     UserDto addUser(UserDto userDto);
     CustomerDto addCustomer(CustomerDto customerDto);
     CustomerDto editCustomer(CustomerDto customerDto);

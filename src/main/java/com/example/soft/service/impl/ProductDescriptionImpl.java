@@ -2,7 +2,7 @@ package com.example.soft.service.impl;
 
 import com.example.soft.dto.ProductDescriptionDto;
 import com.example.soft.dto.assembler.ProductDescriptionAssembler;
-import com.example.soft.entity.ProductDescription;
+import com.example.soft.entity.ProductDescriptionEntity;
 import com.example.soft.exeption_handing.orders.OrderNotFoundException;
 import com.example.soft.exeption_handing.users.ProductDescriptionNotFound;
 import com.example.soft.repository.OrderRepository;
@@ -30,7 +30,7 @@ public class ProductDescriptionImpl implements ProductDescriptionService {
 
     @Override
     public ProductDescriptionDto findProductDescriptionById(long descriptionId) {
-        ProductDescription description = descriptionRepository.findById(descriptionId).orElse(null);
+        ProductDescriptionEntity description = descriptionRepository.findById(descriptionId).orElse(null);
         if(description==null){
             throw new ProductDescriptionNotFound(DESCRIPTION_NOT_FOUND_MESSAGE+descriptionId);
         }
@@ -42,7 +42,7 @@ public class ProductDescriptionImpl implements ProductDescriptionService {
         if(!orderRepository.existsById(descriptionDto.getOrderId())){
             throw new OrderNotFoundException(ORDER_NOT_FOUND_MESSAGE+descriptionDto.getOrderId());
         }
-        ProductDescription description = assembler.assemblerFromDtoToEntity(descriptionDto);
+        ProductDescriptionEntity description = assembler.assemblerFromDtoToEntity(descriptionDto);
         return assembler.assemblerFromEntityToDto(descriptionRepository.save(description));
     }
 
@@ -54,7 +54,7 @@ public class ProductDescriptionImpl implements ProductDescriptionService {
         if(!orderRepository.existsById(descriptionDto.getOrderId())){
             throw new OrderNotFoundException(ORDER_NOT_FOUND_MESSAGE+descriptionDto.getOrderId());
         }
-        ProductDescription description = assembler.assemblerFromDtoToEntity(descriptionDto);
+        ProductDescriptionEntity description = assembler.assemblerFromDtoToEntity(descriptionDto);
         return assembler.assemblerFromEntityToDto(descriptionRepository.save(description));
     }
 
