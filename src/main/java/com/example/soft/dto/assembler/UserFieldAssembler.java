@@ -96,7 +96,8 @@ public class UserFieldAssembler {
             user.setStreet(customerDto.getStreet());
             user.setHouse(customerDto.getHouse());
             user.setFlat(customerDto.getFlat());
-            user.setOrders(userRepository.existsById(customerDto.getId()) ?
+            user.setOrders(customerDto.getId()==null? null :
+                    userRepository.existsById(customerDto.getId()) ?
                     userRepository.getById(customerDto.getId()).getOrders() : null);
 
         }

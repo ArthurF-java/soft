@@ -1,4 +1,5 @@
 package com.example.soft.entity;
+
 import com.example.soft.entity.enumeracion.ProductType;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -21,14 +22,14 @@ public class OrderEntity {
     private Long id;
     @Column(name = "is_need_installation")
     private boolean isNeedInstallation;
-    @Column (name = "product_type")
+    @Column(name = "product_type")
     @Enumerated(EnumType.STRING)
     private ProductType productType;
-    @Column (name = "amount")
+    @Column(name = "amount")
     private int amount;
-    @Column (name = "order_time", updatable = false)
+    @Column(name = "order_time", updatable = false)
     private LocalDate orderTime;
-    @Column (name = "execution_time")
+    @Column(name = "execution_time")
     private LocalDate executionTime;
     @Column(name = "install_time")
     private LocalDate installTime;
@@ -43,8 +44,8 @@ public class OrderEntity {
     private UserEntity employee;
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "order"
-    ,cascade = {CascadeType.ALL})
+    @OneToMany(mappedBy = "order",
+            cascade = {CascadeType.ALL})
     private List<ProductDescriptionEntity> descriptionList;
 
 

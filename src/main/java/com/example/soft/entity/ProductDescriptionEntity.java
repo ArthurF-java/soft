@@ -1,4 +1,5 @@
 package com.example.soft.entity;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,7 +9,7 @@ import javax.persistence.*;
 
 @Data
 @Entity
-@Table(name = "product_description",schema = "public")
+@Table(name = "product_description", schema = "public")
 @NoArgsConstructor
 public class ProductDescriptionEntity {
     @Id

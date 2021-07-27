@@ -42,7 +42,7 @@ public class UserEntity {
     @JsonManagedReference
     @OneToMany(mappedBy = "customer",
             cascade = {CascadeType.ALL})
-    private List <OrderEntity> orders;
+    private List<OrderEntity> orders;
 
 }
 
