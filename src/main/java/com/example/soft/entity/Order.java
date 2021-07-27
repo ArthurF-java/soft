@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
@@ -41,10 +43,10 @@ public class Order {
     @JoinColumn(name = "customer_id")
     private User user;
 
-//    @JsonManagedReference
-//    @OneToMany(mappedBy = "order"
-//    ,cascade = {CascadeType.ALL})
-//    private List<ProductDescription> descriptionList;
+    @JsonManagedReference
+    @OneToMany(mappedBy = "order"
+    ,cascade = {CascadeType.ALL})
+    private List<ProductDescription> descriptionList;
 
 
 }

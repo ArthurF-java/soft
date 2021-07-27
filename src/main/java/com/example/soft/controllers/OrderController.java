@@ -15,8 +15,8 @@ public class OrderController {
     private final OrderService orderService;
 
     @GetMapping("/customer_id/{customer_id}")
-    public List<OrderDto> findAllOrdersByCustomerId(@PathVariable String customer_id){
-        return orderService.findAllOrdersByCustomerId(Long.parseLong(customer_id));
+    public List<OrderDto> findAllOrdersByCustomerId(@PathVariable long customer_id){
+        return orderService.findAllOrdersByCustomerId(customer_id);
     }
 
     @GetMapping
@@ -25,8 +25,8 @@ public class OrderController {
     }
 
     @GetMapping("/{order_id}")
-    public OrderDto findOrderById(@PathVariable String order_id){
-        return orderService.findOrderByID(Long.parseLong(order_id));
+    public OrderDto findOrderById(@PathVariable long order_id){
+        return orderService.findOrderByID(order_id);
     }
 
     @PostMapping
@@ -40,8 +40,8 @@ public class OrderController {
     }
 
     @DeleteMapping("/{order_id}")
-    public String deleteOrder(@PathVariable String order_id ){
-        return orderService.deleteOrderById(Long.parseLong(order_id));
+    public String deleteOrder(@PathVariable long order_id ){
+        return orderService.deleteOrderById(order_id);
     }
 
 

@@ -56,7 +56,7 @@
             <column name="width" type="integer" remarks="Width of product"/>
             <column name="height" type="integer" remarks="Height of product"/>
             <column name="color" type="varchar(50)" remarks="Color of product"/>
-            <column name="Comments" type="varchar(255)" remarks="Product comments"/>
+            <column name="comments" type="varchar(250)" remarks="Product comments"/>
         </createTable>
         <addForeignKeyConstraint baseTableName="product_description" baseColumnNames="order_id" constraintName="fk_order_id"
                                  referencedTableName="orders" referencedColumnNames="id"/>

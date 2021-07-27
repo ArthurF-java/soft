@@ -30,14 +30,8 @@ public class UserServiceImpl implements UserService {
 
     private final static String USER_NOT_FOUND_MESSAGE = "Not found in Database user with Id= ";
     private final static String CUSTOMER_NOT_FOUND_MESSAGE = "Not found in Database customer with Id= ";
-    private final static String USER_EXIST_MESSAGE = "User already exist ind Database with Id= ";
+    private final static String USER_PHONE_NOT_NULL = "User phone number mustn't be null";
     private final static String USER_PHONE_NUMBER_NOT_UNIQUE_MESSAGE = " This phone number of user not unique in Database";
-
-
-    @Override
-    public List<User> test() {
-        return userRepository.findAll();
-    }
 
     @Override
     public List<UserDto> findAllUsers() {
@@ -82,9 +76,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto addUser(UserDto userDto) {
+        if(userDto.getPhone()==null){
+            throw  new PhoneNoUniqueException(USER_PHONE_NOT_NULL);
+        }
         if (userRepository.existsUserByPhone(userDto.getPhone())) {
             throw new PhoneNoUniqueException(USER_PHONE_NUMBER_NOT_UNIQUE_MESSAGE);
         }
+
         User user = userFieldAssembler.assemblerFromUserDtoToUser(userDto);
         if (user.getPassword() != null) {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -94,8 +92,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public CustomerDto addCustomer(CustomerDto customerDto) {
-        if (userRepository.existsById(customerDto.getId())) {
-            throw new UserAlreadyExist(USER_EXIST_MESSAGE + customerDto.getId());
+        if(customerDto.getPhone()==null){
+            throw  new PhoneNoUniqueException(USER_PHONE_NOT_NULL);
         }
         User user = userFieldAssembler.assemblerFromCustomerDtoToUser(customerDto);
         if (userRepository.existsUserByPhone(customerDto.getPhone())) {

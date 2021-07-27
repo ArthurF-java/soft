@@ -29,7 +29,7 @@ public class JwtTokenProvider {
     @Value("jwtappdemo")
     private String secret;
 
-    @Value("3600000")
+    @Value("36000000")
     private long validityInMilliseconds;
 
     @Autowired
@@ -73,8 +73,8 @@ public class JwtTokenProvider {
 
     public String resolveToken(HttpServletRequest req) {
         String bearerToken = req.getHeader("Authorization");
-        if (bearerToken != null && bearerToken.startsWith("Bearer_")) {
-            return bearerToken.substring(7, bearerToken.length());
+        if (bearerToken != null && bearerToken.startsWith("Soft_")) {
+            return bearerToken.substring(5, bearerToken.length());
         }
         return null;
     }

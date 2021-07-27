@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 public class OrderServiceImpl implements OrderService {
 
     private final static String ORDER_NOT_FOUND_MESSAGE = "Not found in Database order with Id= ";
-    private final static String ORDER_EXIST_MESSAGE = "User already exist ind Database with Id= ";
+    private final static String CUSTOMER_NOT_FOUND_MESSAGE = "Not found in Database customer with Id= ";
 
     private final OrderFieldAssembler orderFieldAssembler;
     private final OrderRepository orderRepository;
@@ -48,7 +48,7 @@ public class OrderServiceImpl implements OrderService {
     public List<OrderDto> findAllOrdersByCustomerId(long customerId) {
         User user = userRepository.findById(customerId).orElse(null);
         if (user == null) {
-            throw new UserNotFoundException("Not found in Database order with Id= " + customerId);
+            throw new UserNotFoundException(CUSTOMER_NOT_FOUND_MESSAGE + customerId);
         }
         return user.getOrderList().stream()
                 .map(orderFieldAssembler::assemblerFromOrderToOrderDto)
@@ -57,6 +57,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderDto addOrder(OrderDto orderDto) {
+        if(!userRepository.existsById(orderDto.getCustomerId())){
+            throw new UserNotFoundException(CUSTOMER_NOT_FOUND_MESSAGE+orderDto.getCustomerId());
+        }
         orderDto.setOrderTime(LocalDate.now());
         Order order = orderFieldAssembler.assemblerFromOrderDtoToOrder(orderDto);
         orderRepository.save(order);
@@ -67,6 +70,9 @@ public class OrderServiceImpl implements OrderService {
     public OrderDto editOrder(OrderDto orderDto) {
         if (!orderRepository.existsById(orderDto.getId())) {
             throw new OrderNotFoundException(ORDER_NOT_FOUND_MESSAGE + orderDto.getId());
+        }
+        if(!userRepository.existsById(orderDto.getCustomerId())){
+            throw new UserNotFoundException(CUSTOMER_NOT_FOUND_MESSAGE+orderDto.getCustomerId());
         }
         Order order = orderFieldAssembler.assemblerFromOrderDtoToOrder(orderDto);
         orderRepository.save(order);

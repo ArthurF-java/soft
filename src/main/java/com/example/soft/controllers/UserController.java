@@ -21,13 +21,13 @@ public class UserController {
     }
 
     @GetMapping("/{user_id}")
-    public UserDto getUserById(@PathVariable String user_id){
-        return  userService.findById(Long.parseLong(user_id));
+    public UserDto getUserById(@PathVariable long user_id){
+        return  userService.findById(user_id);
     }
 
     @DeleteMapping("/{user_id}")
-    public String deleteUser(@PathVariable String user_id){
-        return  userService.deleteUserById(Long.parseLong(user_id));
+    public String deleteUser(@PathVariable long user_id){
+        return  userService.deleteUserById(user_id);
 
     }
 

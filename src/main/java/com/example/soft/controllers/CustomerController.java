@@ -14,20 +14,14 @@ public class CustomerController {
 
     UserService userService;
 
-    @GetMapping("/test")
-    public List<User> test(){
-        return userService.test();
-    }
-
-
     @GetMapping
     public List<CustomerDto> findAllCustomers(){
         return userService.findAllByRoleCustomer();
     }
 
     @GetMapping("/{customer_id}")
-    public CustomerDto findCustomerById(@PathVariable String customer_id) {
-        return userService.findCustomerById(Long.parseLong(customer_id));
+    public CustomerDto findCustomerById(@PathVariable long customer_id) {
+        return userService.findCustomerById(customer_id);
 
     }
 
