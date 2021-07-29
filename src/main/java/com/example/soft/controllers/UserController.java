@@ -1,46 +1,46 @@
 package com.example.soft.controllers;
 
-
 import com.example.soft.dto.UserDto;
 import com.example.soft.service.UserService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
-
 @RestController
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RequestMapping("/users")
 public class UserController {
 
-    UserService userService;
+    private final UserService userService;
 
     @GetMapping()
-    public List<UserDto>getAllUsers(){
-        return  userService.findAllUsers();
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    public List<UserDto> getAllUsers() {
+        return userService.findAllUsers();
     }
 
-    @GetMapping("/{user_id}")
-    public UserDto getUserById(@PathVariable long user_id){
-        return  userService.findById(user_id);
+    @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    public UserDto getUserById(@PathVariable final long id) {
+        return userService.findById(id);
     }
 
-    @DeleteMapping("/{user_id}")
-    public String deleteUser(@PathVariable long user_id){
-        return  userService.deleteUserById(user_id);
-
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    public void deleteUser(@PathVariable final long id) {
+        userService.deleteUserById(id);
     }
 
     @PostMapping()
-    public UserDto addUser(@RequestBody UserDto userDto){
-        return userService.addUser(userDto);
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    public UserDto createUser(@RequestBody final UserDto userDto) {
+        return userService.createUser(userDto);
     }
 
     @PutMapping()
-    public UserDto editUser(@RequestBody UserDto userDto){
-        return userService.editUser(userDto);
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    public UserDto updateUser(@RequestBody final UserDto userDto) {
+        return userService.updateUser(userDto);
     }
-
-
-
 }

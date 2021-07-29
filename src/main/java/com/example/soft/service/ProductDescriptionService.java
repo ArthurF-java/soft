@@ -7,9 +7,13 @@ import java.util.List;
 public interface ProductDescriptionService {
 
     ProductDescriptionDto findProductDescriptionById (long descriptionId);
-    ProductDescriptionDto addProductDescription(ProductDescriptionDto descriptionDto);
-    ProductDescriptionDto editProductDescription(ProductDescriptionDto descriptionDto);
-    String deleteProductDescription(long descriptionDtoId);
+
+    ProductDescriptionDto createProductDescription(ProductDescriptionDto descriptionDto);
+
+    ProductDescriptionDto updateProductDescription(ProductDescriptionDto descriptionDto);
+
+    void deleteProductDescription(long descriptionDtoId);
+
     List<ProductDescriptionDto> findAllProductDescriptionByOrderId(long orderId);
 
 

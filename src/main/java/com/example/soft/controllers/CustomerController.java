@@ -2,35 +2,41 @@ package com.example.soft.controllers;
 
 import com.example.soft.dto.CustomerDto;
 import com.example.soft.service.UserService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
+
 @RestController
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RequestMapping("/customers")
 public class CustomerController {
 
-    UserService userService;
+    private final UserService userService;
 
     @GetMapping
-    public List<CustomerDto> findAllCustomers(){
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SALES')")
+    public List<CustomerDto> findAllCustomers() {
         return userService.findAllByRoleCustomer();
     }
 
-    @GetMapping("/{customer_id}")
-    public CustomerDto findCustomerById(@PathVariable long customer_id) {
-        return userService.findCustomerById(customer_id);
-
+    @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SALES')")
+    public CustomerDto findCustomerById(@PathVariable final long id) {
+        return userService.findCustomerById(id);
     }
 
     @PostMapping()
-    public CustomerDto addCustomers(@RequestBody CustomerDto customerDto) {
-        return userService.addCustomer(customerDto);
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SALES')")
+    public CustomerDto createCustomers(@RequestBody final CustomerDto customerDto) {
+        return userService.createCustomer(customerDto);
     }
 
     @PutMapping()
-    public CustomerDto editCustomer(@RequestBody CustomerDto customerDto) {
-        return userService.editCustomer(customerDto);
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SALES')")
+    public CustomerDto updateCustomer(@RequestBody final CustomerDto customerDto) {
+        return userService.updateCustomer(customerDto);
     }
 }

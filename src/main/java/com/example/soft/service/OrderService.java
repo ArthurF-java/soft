@@ -5,11 +5,17 @@ import com.example.soft.dto.OrderDto;
 import java.util.List;
 
 public interface OrderService {
-    OrderDto findOrderByID(long orderId);
+
+    OrderDto findOrderById(long orderId);
+
     List <OrderDto> findAllOrders();
+
     List<OrderDto> findAllOrdersByCustomerId(long customerId);
-    OrderDto addOrder(OrderDto orderDto);
-    OrderDto editOrder(OrderDto orderDto);
-    String deleteOrderById(long orderId);
+
+    OrderDto createOrder(OrderDto orderDto);
+
+    OrderDto updateOrder(OrderDto orderDto);
+
+    void deleteOrderById(long orderId);
 
 }

@@ -47,13 +47,10 @@ public class JwtTokenProvider {
     }
 
     public String createToken(String username, Role role) {
-
         Claims claims = Jwts.claims().setSubject(username);
         claims.put("roles", role);
-
         Date now = new Date();
         Date validity = new Date(now.getTime() + validityInMilliseconds);
-
         return Jwts.builder()//
                 .setClaims(claims)//
                 .setIssuedAt(now)//
@@ -86,7 +83,6 @@ public class JwtTokenProvider {
             if (claims.getBody().getExpiration().before(new Date())) {
                 return false;
             }
-
             return true;
         } catch (JwtException | IllegalArgumentException e) {
             throw new JwtAuthenticationException("JWT token is expired or invalid");
@@ -94,10 +90,8 @@ public class JwtTokenProvider {
     }
 
     private List<String> getRoleNames(Role role) {
-
         List<String> result = new ArrayList<>();
         result.add(role.name());
-
         return result;
     }
 }

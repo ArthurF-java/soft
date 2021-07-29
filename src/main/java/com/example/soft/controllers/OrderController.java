@@ -2,49 +2,52 @@ package com.example.soft.controllers;
 
 import com.example.soft.dto.OrderDto;
 import com.example.soft.service.OrderService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RequestMapping("/orders")
 public class OrderController {
 
     private final OrderService orderService;
 
-    @GetMapping("/customer_id/{customer_id}")
-    public List<OrderDto> findAllOrdersByCustomerId(@PathVariable long customer_id){
-        return orderService.findAllOrdersByCustomerId(customer_id);
+    @GetMapping("/customers/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SALES')")
+    public List<OrderDto> findAllOrdersByCustomerId(@PathVariable final long id){
+        return orderService.findAllOrdersByCustomerId(id);
     }
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SALES')")
     public List<OrderDto> findAllOrders(){
         return orderService.findAllOrders();
     }
 
-    @GetMapping("/{order_id}")
-    public OrderDto findOrderById(@PathVariable long order_id){
-        return orderService.findOrderByID(order_id);
+    @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SALES')")
+    public OrderDto findOrderById(@PathVariable final long id){
+        return orderService.findOrderById(id);
     }
 
     @PostMapping
-    public OrderDto addOrder(@RequestBody OrderDto orderDto){
-        return orderService.addOrder(orderDto);
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SALES')")
+    public OrderDto CreateOrder(@RequestBody final OrderDto orderDto){
+        return orderService.createOrder(orderDto);
     }
 
     @PutMapping
-    public OrderDto editOrder(@RequestBody OrderDto orderDto){
-        return orderService.editOrder(orderDto);
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SALES')")
+    public OrderDto updateOrder(@RequestBody final OrderDto orderDto){
+        return orderService.updateOrder(orderDto);
     }
 
-    @DeleteMapping("/{order_id}")
-    public String deleteOrder(@PathVariable long order_id ){
-        return orderService.deleteOrderById(order_id);
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SALES')")
+    public void deleteOrder(@PathVariable final long id){
+        orderService.deleteOrderById(id);
     }
-
-
-
 }
 

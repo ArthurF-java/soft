@@ -1,15 +1,11 @@
 package com.example.soft.dto;
 
 import com.example.soft.entity.enumeracion.Role;
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonIgnoreType;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.Data;
-import lombok.Value;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
-@JsonIgnoreProperties(ignoreUnknown = true)
+@Getter
+@Setter
 public class UserDto {
     private Long id;
     private String firstName;
@@ -20,7 +16,6 @@ public class UserDto {
     private Role role;
     private String city;
     private String street;
-    private int house;
-    private int flat;
-
+    private Integer house;
+    private Integer flat;
 }

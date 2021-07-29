@@ -4,12 +4,12 @@ import com.example.soft.dto.OrderDto;
 import com.example.soft.dto.assembler.OrderFieldAssembler;
 import com.example.soft.entity.OrderEntity;
 import com.example.soft.entity.UserEntity;
-import com.example.soft.exeption_handing.orders.OrderNotFoundException;
-import com.example.soft.exeption_handing.users.UserNotFoundException;
+import com.example.soft.exeption.OrderNotFoundException;
+import com.example.soft.exeption.UserNotFoundException;
 import com.example.soft.repository.OrderRepository;
 import com.example.soft.repository.UserRepository;
 import com.example.soft.service.OrderService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import java.time.LocalDate;
@@ -18,73 +18,66 @@ import java.util.stream.Collectors;
 
 @Service
 @Slf4j
-@AllArgsConstructor
-
+@RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService {
-
-    private final static String ORDER_NOT_FOUND_MESSAGE = "Not found in Database order with Id= ";
-    private final static String CUSTOMER_NOT_FOUND_MESSAGE = "Not found in Database customer with Id= ";
 
     private final OrderFieldAssembler orderFieldAssembler;
     private final OrderRepository orderRepository;
     private final UserRepository userRepository;
 
+    private final static String ORDER_NOT_FOUND_MESSAGE = "Not found in Database order with Id = ";
+    private final static String CUSTOMER_NOT_FOUND_MESSAGE = "Not found in Database customer with Id = ";
+
     @Override
-    public OrderDto findOrderByID(long orderId) {
-        OrderEntity order = orderRepository.findById(orderId).orElse(null);
-        if (order == null) {
-            throw new OrderNotFoundException(ORDER_NOT_FOUND_MESSAGE + orderId);
-        }
-        return orderFieldAssembler.assemblerFromOrderToOrderDto(order);
+    public OrderDto findOrderById(final long orderId) {
+        OrderEntity order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new OrderNotFoundException(ORDER_NOT_FOUND_MESSAGE + orderId));
+        return orderFieldAssembler.disassemble(order);
     }
 
     @Override
     public List<OrderDto> findAllOrders() {
-        return orderRepository.findAll().stream().map(orderFieldAssembler::assemblerFromOrderToOrderDto)
+        return orderRepository.findAll().stream().map(orderFieldAssembler::disassemble)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public List<OrderDto> findAllOrdersByCustomerId(long customerId) {
-        UserEntity user = userRepository.findById(customerId).orElse(null);
-        if (user == null) {
-            throw new UserNotFoundException(CUSTOMER_NOT_FOUND_MESSAGE + customerId);
-        }
-        return user.getOrders().stream()
-                .map(orderFieldAssembler::assemblerFromOrderToOrderDto)
+    public List<OrderDto> findAllOrdersByCustomerId(final long customerId) {
+        UserEntity customer = userRepository.findById(customerId)
+                .orElseThrow(() -> new UserNotFoundException(CUSTOMER_NOT_FOUND_MESSAGE + customerId));
+        return orderRepository.findAllByCustomer(customer).stream().map(orderFieldAssembler::disassemble)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public OrderDto addOrder(OrderDto orderDto) {
-        if(!userRepository.existsById(orderDto.getCustomerId())){
-            throw new UserNotFoundException(CUSTOMER_NOT_FOUND_MESSAGE+orderDto.getCustomerId());
-        }
-        orderDto.setOrderTime(LocalDate.now());
-        OrderEntity order = orderFieldAssembler.assemblerFromOrderDtoToOrder(orderDto);
+    public OrderDto createOrder(final OrderDto orderDto) {
+        UserEntity customer = userRepository.findById(orderDto.getCustomer().getId())
+                .orElseThrow(() -> new UserNotFoundException(CUSTOMER_NOT_FOUND_MESSAGE + orderDto.getCustomer().getId()));
+        UserEntity employee = userRepository.findById(orderDto.getEmployee().getId())
+                .orElseThrow(() -> new UserNotFoundException(CUSTOMER_NOT_FOUND_MESSAGE + orderDto.getEmployee().getId()));
+        OrderEntity order = orderFieldAssembler.assemble(orderDto);
+        order.setOrderTime(LocalDate.now());
+        order.setCustomer(customer);
+        order.setEmployee(employee);
         orderRepository.save(order);
-        return orderFieldAssembler.assemblerFromOrderToOrderDto(order);
+        return orderFieldAssembler.disassemble(order);
     }
 
     @Override
-    public OrderDto editOrder(OrderDto orderDto) {
-        if (!orderRepository.existsById(orderDto.getId())) {
-            throw new OrderNotFoundException(ORDER_NOT_FOUND_MESSAGE + orderDto.getId());
-        }
-        if(!userRepository.existsById(orderDto.getCustomerId())){
-            throw new UserNotFoundException(CUSTOMER_NOT_FOUND_MESSAGE+orderDto.getCustomerId());
-        }
-        OrderEntity orderEntity = orderFieldAssembler.assemblerFromOrderDtoToOrder(orderDto);
+    public OrderDto updateOrder(final OrderDto orderDto) {
+        OrderEntity existed = orderRepository.findById(orderDto.getId())
+                .orElseThrow(() -> new OrderNotFoundException(ORDER_NOT_FOUND_MESSAGE + orderDto.getId()));
+        UserEntity customer = userRepository.findById(orderDto.getCustomer().getId())
+                .orElseThrow(() -> new UserNotFoundException(CUSTOMER_NOT_FOUND_MESSAGE + orderDto.getCustomer().getId()));
+        UserEntity employee = userRepository.findById(orderDto.getEmployee().getId())
+                .orElseThrow(() -> new UserNotFoundException(CUSTOMER_NOT_FOUND_MESSAGE + orderDto.getEmployee().getId()));
+        OrderEntity orderEntity = orderFieldAssembler.assemble(orderDto, existed, customer, employee);
         orderRepository.save(orderEntity);
-        return orderFieldAssembler.assemblerFromOrderToOrderDto(orderEntity);
+        return orderFieldAssembler.disassemble(orderEntity);
     }
 
     @Override
-    public String deleteOrderById(long orderId) {
-        if (!orderRepository.existsById(orderId)) {
-            throw new UserNotFoundException(ORDER_NOT_FOUND_MESSAGE + orderId);
-        }
+    public void deleteOrderById(final long orderId) {
         orderRepository.deleteById(orderId);
-        return "order with Id = " + orderId + " was deleted";
     }
 }

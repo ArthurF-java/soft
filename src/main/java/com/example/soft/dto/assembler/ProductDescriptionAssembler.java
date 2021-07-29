@@ -1,18 +1,31 @@
 package com.example.soft.dto.assembler;
 
 import com.example.soft.dto.ProductDescriptionDto;
+import com.example.soft.entity.OrderEntity;
 import com.example.soft.entity.ProductDescriptionEntity;
-import com.example.soft.repository.OrderRepository;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class ProductDescriptionAssembler {
 
-    OrderRepository orderRepository;
+    public ProductDescriptionEntity assemble(final ProductDescriptionDto descriptionDto, OrderEntity order) {
+        ProductDescriptionEntity description = null;
+        if (descriptionDto != null) {
+            description = new ProductDescriptionEntity();
+            description.setId(descriptionDto.getId());
+            description.setOrder(descriptionDto.getOrderId().equals(order.getId()) ?
+                    order : null);
+            description.setWidth(descriptionDto.getWidth());
+            description.setHeight(descriptionDto.getHeight());
+            description.setColor(descriptionDto.getColor());
+            description.setComments(descriptionDto.getComments());
+        }
+        return description;
+    }
 
-    public ProductDescriptionDto assemblerFromEntityToDto(ProductDescriptionEntity description) {
+    public ProductDescriptionDto disassemble(final ProductDescriptionEntity description) {
         ProductDescriptionDto descriptionDto = null;
         if (description != null) {
             descriptionDto = new ProductDescriptionDto();
@@ -25,20 +38,4 @@ public class ProductDescriptionAssembler {
         }
         return descriptionDto;
     }
-
-    public ProductDescriptionEntity assemblerFromDtoToEntity(ProductDescriptionDto descriptionDto) {
-        ProductDescriptionEntity description = null;
-        if (descriptionDto != null) {
-            description = new ProductDescriptionEntity();
-            description.setId(descriptionDto.getId());
-            description.setOrder(orderRepository.getById(descriptionDto.getOrderId()));
-            description.setWidth(descriptionDto.getWidth());
-            description.setHeight(descriptionDto.getHeight());
-            description.setColor(descriptionDto.getColor());
-            description.setComments(descriptionDto.getComments());
-        }
-        return description;
-    }
-
-
 }

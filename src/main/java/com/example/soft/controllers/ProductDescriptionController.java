@@ -3,46 +3,50 @@ package com.example.soft.controllers;
 
 import com.example.soft.dto.ProductDescriptionDto;
 import com.example.soft.service.ProductDescriptionService;
-import lombok.AllArgsConstructor;
-import org.springframework.security.access.method.P;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/descriptions")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class ProductDescriptionController {
 
-    ProductDescriptionService descriptionService;
+    private final ProductDescriptionService descriptionService;
 
-    @GetMapping("/{description_id}")
-    public ProductDescriptionDto findProductDescriptionById(@PathVariable long description_id){
-        return descriptionService.findProductDescriptionById(description_id);
+    @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SALES')")
+    public ProductDescriptionDto findProductDescriptionById(@PathVariable final long id){
+        return descriptionService.findProductDescriptionById(id);
     }
 
-    @GetMapping("/order_id/{order_id}")
+    @GetMapping("/order_id/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SALES')")
     public List<ProductDescriptionDto> findAllProductDescriptionByOrderId(
-            @PathVariable long order_id){
-        return descriptionService.findAllProductDescriptionByOrderId(order_id);
+            @PathVariable final long id){
+        return descriptionService.findAllProductDescriptionByOrderId(id);
     }
 
     @PostMapping
-    public ProductDescriptionDto addProductDescription
-            (@RequestBody ProductDescriptionDto descriptionDto){
-        return descriptionService.addProductDescription(descriptionDto);
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SALES')")
+    public ProductDescriptionDto createProductDescription
+            (@RequestBody final ProductDescriptionDto descriptionDto){
+        return descriptionService.createProductDescription(descriptionDto);
     }
 
     @PutMapping
-    public ProductDescriptionDto editProductDescription
-            (@RequestBody ProductDescriptionDto descriptionDto){
-        return descriptionService.editProductDescription(descriptionDto);
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SALES')")
+    public ProductDescriptionDto updateProductDescription
+            (@RequestBody final ProductDescriptionDto descriptionDto){
+        return descriptionService.updateProductDescription(descriptionDto);
     }
 
-    @DeleteMapping("/{description_id}")
-    public String deleteProductDescription
-            (@PathVariable long description_id){
-        return descriptionService.deleteProductDescription(description_id);
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SALES')")
+    public void deleteProductDescription
+            (@PathVariable final long id){
+        descriptionService.deleteProductDescription(id);
     }
-
 }

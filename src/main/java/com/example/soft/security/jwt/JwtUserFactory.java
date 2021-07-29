@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
 public final class JwtUserFactory {
 
     public JwtUserFactory() {
@@ -24,7 +23,6 @@ public final class JwtUserFactory {
                 user.getPassword(),
                 mapToGrantedAuthorities(user.getRole()),
                 true
-
         );
     }
 

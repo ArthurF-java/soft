@@ -1,12 +1,11 @@
 package com.example.soft.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.Data;
-
+import lombok.Getter;
+import lombok.Setter;
 import java.util.List;
 
-@Data
-@JsonIgnoreProperties(ignoreUnknown = true)
+@Getter
+@Setter
 public class CustomerDto {
     private Long id;
     private String firstName;
@@ -15,10 +14,7 @@ public class CustomerDto {
     private String email;
     private String city;
     private String street;
-    private int house;
-    private int flat;
+    private Integer house;
+    private Integer flat;
     private List<OrderDto> orderList;
-
-
-
 }
