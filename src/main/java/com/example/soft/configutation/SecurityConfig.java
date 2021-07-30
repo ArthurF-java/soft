@@ -16,7 +16,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final JwtTokenProvider jwtTokenProvider;
 
-    private static final String TEST = "/**";
+    private static final String SWAGGER_HTML = "/swagger-ui.html";
+    private static final String SWAGGER = "/swagger-ui/**";
     private static final String LOGIN_ENDPOINT = "/auth/login";
 
     @Bean
@@ -35,7 +36,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers(LOGIN_ENDPOINT).permitAll()
-                .antMatchers(TEST).hasAnyRole("TEST", "ADMIN")
+                .antMatchers(SWAGGER).hasRole("SWAGGER")
+                .antMatchers(SWAGGER_HTML).hasRole("SWAGGER")
                 .anyRequest().authenticated()
                 .and()
                 .apply(new JwtConfigurer(jwtTokenProvider));
