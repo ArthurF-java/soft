@@ -15,9 +15,3 @@ spring:
   liquibase:
     change-log: classpath:db/changelog/db.changelog-master.xml
 
-  security:
-    user:
-      name: test
-      password: $2a$10$U9NZV6x1QaQYac36xqgj/O.oBeN/veJeLdwwqC02RH1Vv8PSAU2Ai
-      roles: TEST
-

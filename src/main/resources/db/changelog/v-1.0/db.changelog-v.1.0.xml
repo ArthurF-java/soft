@@ -71,6 +71,15 @@
         referencedTableName="user" referencedColumnNames="id" />
     </changeSet>
 
+    <changeSet id="20210730-1" author="Arthur Fonichkin">
+        <insert tableName="user">
+            <column name="first_name" value="SuperAdmin"/>
+            <column name="phone" value="321"/>
+            <column name="password" value="$2a$10$U9NZV6x1QaQYac36xqgj/O.oBeN/veJeLdwwqC02RH1Vv8PSAU2Ai"/>
+            <column name="role" value="ROLE_ADMIN"/>
+        </insert>
+    </changeSet>
+
 
 
 </databaseChangeLog>

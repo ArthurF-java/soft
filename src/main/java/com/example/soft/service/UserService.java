@@ -25,6 +25,7 @@ public interface UserService {
     CustomerDto updateCustomer(CustomerDto customerDto);
 
     void deleteUserById(long userId);
+
     UserDto updateUser(UserDto userDto);
 
 }

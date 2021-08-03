@@ -96,6 +96,9 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <executable>true</executable>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.liquibase</groupId>
@@ -103,6 +106,7 @@
                 <version>4.3.5</version>
             </plugin>
         </plugins>
+        <finalName>soft</finalName>
     </build>
 
 </project>

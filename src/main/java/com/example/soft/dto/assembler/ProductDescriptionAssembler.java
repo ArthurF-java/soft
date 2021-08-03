@@ -10,7 +10,8 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class ProductDescriptionAssembler {
 
-    public ProductDescriptionEntity assemble(final ProductDescriptionDto descriptionDto, OrderEntity order) {
+    public ProductDescriptionEntity assemble(final ProductDescriptionDto descriptionDto,
+                                             final OrderEntity order) {
         ProductDescriptionEntity description = null;
         if (descriptionDto != null) {
             description = new ProductDescriptionEntity();

@@ -27,7 +27,7 @@ public class UserFieldAssembler {
         return user;
     }
 
-    public UserEntity assemble(UserDto userDto, UserEntity existed) {
+    public UserEntity assemble(final UserDto userDto, final UserEntity existed) {
         UserEntity user = null;
         if (userDto != null) {
             user = new UserEntity();
@@ -57,7 +57,7 @@ public class UserFieldAssembler {
         return user;
     }
 
-    public UserDto disassemble(UserEntity user) {
+    public UserDto disassemble(final UserEntity user) {
         UserDto userDto = null;
         if (user != null) {
             userDto = new UserDto();
@@ -76,7 +76,7 @@ public class UserFieldAssembler {
         return userDto;
     }
 
-    public UserDto disassembleForOrder(UserEntity employee) {
+    public UserDto disassembleForOrder(final UserEntity employee) {
         UserDto userDto = null;
         if (employee != null) {
             userDto = new UserDto();
