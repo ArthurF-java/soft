@@ -1,7 +1,6 @@
 package com.example.soft.security;
 
 import com.example.soft.entity.UserEntity;
-import com.example.soft.entity.enumeracion.Role;
 import com.example.soft.security.jwt.JwtUser;
 import com.example.soft.security.jwt.JwtUserFactory;
 import com.example.soft.service.UserService;
@@ -25,7 +24,7 @@ public class JwtUserDetailsService implements UserDetailsService {
     private final PasswordEncoder passwordEncoder;
 
     @Value("${hardcode.username}")
-    private String username;
+    private String usernameInstUser;
     @Value("${hardcode.password}")
     private String password;
 
@@ -33,7 +32,7 @@ public class JwtUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UserEntity user = userService.findByPhone(username);
         UserEntity userHardCode = new UserEntity();
-        userHardCode.setPhone(username);
+        userHardCode.setPhone(usernameInstUser);
         userHardCode.setPassword(passwordEncoder.encode(password));
         userHardCode.setRole(ROLE_SWAGGER);
         if (user == null) {
