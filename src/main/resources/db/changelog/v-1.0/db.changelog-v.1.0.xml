@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="20210721-1" author="Arthur Fonichkin">
+        <createTable tableName="user" remarks="Table for user">
+            <column name="id" type="bigint" autoIncrement="true" remarks="Unique identifier for user">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_user_id"/>
+            </column>
+            <column name="first_name" type="varchar(100)" remarks="First name"/>
+            <column name="last_name" type="varchar(100)" remarks="Last name"/>
+            <column name="phone" type="varchar(100)" remarks="Unique phone number using for authorisation">
+                <constraints unique="true" uniqueConstraintName="uq_user_phone_"/>
+            </column>
+            <column name="password" type="varchar(200)" remarks="Password hash"/>
+            <column name="email" type="varchar(255)" remarks="User e-mail"/>
+            <column name="role" type="varchar(50)" remarks="Role of user"/>
+            <column name="city" type="varchar(50)" remarks="City of user"/>
+            <column name="street" type="varchar(50)" remarks="Street of user"/>
+            <column name="house" type="integer" remarks="House number of user"/>
+            <column name="flat" type="integer" remarks="Flat number of user"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="20210721-2" author="Arthur Fonichkin">
+        <createTable tableName="orders">
+            <column name="id" type="bigint" autoIncrement="true" remarks="Unique identifier for orderEntity">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_order_id"/>
+            </column>
+            <column name="employee_id" type="bigint" remarks="User(EMPLOYEE ROLE) identifier"/>
+            <column name="customer_id" type="bigint" remarks="User(CUSTOMER ROLE) identifier"/>
+            <column name="is_need_installation" type="boolean" remarks="True if need install"/>
+            <column name="product_type" type="varchar(50)" remarks="Type of orderEntity product"/>
+            <column name="amount" type="integer" remarks="Amount of orderEntity"/>
+            <column name="order_time" type="date" remarks="Time of orderEntity"/>
+            <column name="execution_time" type="date" remarks="Time of execution"/>
+            <column name="install_time" type="date" remarks="Time of install"/>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="orders" baseColumnNames="customer_id"
+                                 constraintName="fk_orders_customer_id"
+                                 referencedTableName="user" referencedColumnNames="id"/>
+
+    </changeSet>
+
+    <changeSet id="20210721-3" author="Arthur Fonichkin">
+        <createTable tableName="product_description">
+            <column name="id" type="bigint" autoIncrement="true" remarks="Unique identifier for product_description">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_product_id"/>
+            </column>
+            <column name="order_id" type="bigint" remarks="Order identifier"/>
+            <column name="width" type="integer" remarks="Width of product"/>
+            <column name="height" type="integer" remarks="Height of product"/>
+            <column name="color" type="varchar(50)" remarks="Color of product"/>
+            <column name="comments" type="varchar(250)" remarks="Product comments"/>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="product_description" baseColumnNames="order_id"
+                                 constraintName="fk_product_description_order_id"
+                                 referencedTableName="orders" referencedColumnNames="id"/>
+
+    </changeSet>
+    <changeSet id="20210727-1" author="Arthur Fonichkin">
+        <modifyDataType tableName="product_description" columnName="comments" newDataType="text"/>
+    </changeSet>
+
+    <changeSet id="20210727-2" author="Arthur Fonichkin">
+        <addForeignKeyConstraint baseTableName="orders" baseColumnNames="employee_id"
+        constraintName="fk_orders_employee_id"
+        referencedTableName="user" referencedColumnNames="id" />
+    </changeSet>
+
+    <changeSet id="20210730-1" author="Arthur Fonichkin">
+        <insert tableName="user">
+            <column name="first_name" value="SuperAdmin"/>
+            <column name="phone" value="321"/>
+            <column name="password" value="$2a$10$U9NZV6x1QaQYac36xqgj/O.oBeN/veJeLdwwqC02RH1Vv8PSAU2Ai"/>
+            <column name="role" value="ROLE_ADMIN"/>
+        </insert>
+    </changeSet>
+
+
+
+</databaseChangeLog>

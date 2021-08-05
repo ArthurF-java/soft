@@ -1,0 +1,14 @@
+
+version: "3"
+
+services:
+  soft:
+    build: docker/
+    restart: always
+    ports:
+      - 8888:8888
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://host.docker.internal:5432/projectSoft_bd
+      - SPRING_DATASOURCEdo_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=postroot
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update

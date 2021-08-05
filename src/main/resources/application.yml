@@ -3,7 +3,7 @@ spring.jpa:
 
 spring.datasource:
   driverClassName: org.postgresql.Driver
-  url: jdbc:postgresql://localhost:5432/projectSoft_bd
+  url: jdbc:postgresql://127.0.0.1:5432/projectSoft_bd
   username: root
   password: postroot
 
@@ -11,3 +11,7 @@ server:
   port: 8888
   servlet:
     context-path: /soft
+spring:
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.xml
+
